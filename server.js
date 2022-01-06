@@ -31,6 +31,13 @@ app.get('/api/v1/images', (req, res) => {
   res.json(images)
 })
 
+app.get('/api/v1/images', (req, res) => {
+  const images = app.locals.images
+  console.log('RequestPARAMS>>>', req.params)
+  console.log('Response>>>', res)
+  res.json(images)
+})
+
 //Send a single image upon visit
 app.get('/api/v1/images/:id', (req, res) => {
   const imageId = req.params.id
@@ -83,7 +90,7 @@ app.locals.images = [
     type: 'painting'
   },
   {
-    id: 18,
+    id: "18",
     url: 'https://images.unsplash.com/photo-1580136608260-4eb11f4b24fe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1452&q=80',
     title: 'Springtime',
     color: ['green', 'blue', 'white'],
@@ -91,7 +98,7 @@ app.locals.images = [
     type: 'painting'
   },
   {
-    id: 19,
+    id: "19",
     url: 'https://images.unsplash.com/photo-1576769267415-9642010aa962?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1372&q=80',
     title: 'Changing the Letter',
     color: ['red', 'blue', 'green', 'yellow'],
@@ -99,7 +106,7 @@ app.locals.images = [
     type: 'painting'
   },
   {
-    id: 20,
+    id: "20",
     url: 'https://images.unsplash.com/photo-1577720580479-7d839d829c73?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1568&q=80',
     title: 'Near Brodick, Isle Of Arran, Scotland',
     color: ['yellow', 'blue', 'green'],
