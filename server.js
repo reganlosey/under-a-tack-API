@@ -62,6 +62,35 @@ app.post('/api/v1/images', (req, res) => {
   console.log(req, res)
 })
 
+// GET cart items
+app.get('/api/v1/cart', (req, res) => {
+  const cartItems = app.locals.cart
+  // console.log('RequestPARAMS>>>', req.params)
+  // console.log('Response>>>', res)
+  res.json(cartItems)
+})
+
+// POST item to cart
+app.post('/api/v1/cart', (req, res) => {
+  const addedItem = req.body;
+  // console.log(addedItem)
+  for (let requiredParameter of ['id', 'url', 'title', 'color', 'artist', 'type']) {
+    if (!addedItem[requiredParameter]) {
+      res
+        .status(422)
+        .send({
+          error: `Expected format: {name: <String>, type: <String>. You\'re missing a "${requiredParameter}" property.`
+        })
+    }
+  }
+  const { id, url, title, color, artist, type } = addedItem;
+  app.locals.cart.push({ id, url, title, color, artist, type });
+  res.status(201).json({ id, url, title, color, artist, type })
+  console.log('POST IS HAPPENING OMG <<>>>><<<<<>>>>')
+})
+
+
+
 //Data to send and be hosted on the API
 app.locals.images = [
   {
@@ -96,6 +125,17 @@ app.locals.images = [
     artist: 'Joseph Edward Southall',
     type: 'painting'
   },
+  {
+    id: 20,
+    url: 'https://images.unsplash.com/photo-1577720580479-7d839d829c73?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1568&q=80',
+    title: 'Near Brodick, Isle Of Arran, Scotland',
+    color: ['yellow', 'blue', 'green'],
+    artist: 'William Andrews Nesfield',
+    type: 'painting'
+  }
+]
+
+app.locals.cart = [
   {
     id: 20,
     url: 'https://images.unsplash.com/photo-1577720580479-7d839d829c73?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1568&q=80',
