@@ -97,17 +97,6 @@ app.post('/api/v1/cart', (req, res) => {
   const addedItem = {id, url, title, color, artist, type, quantity: parseInt(quantity), price}
   const foundItem = app.locals.cart.find(cartItem => cartItem.id === addedItem.id)
 
-  // for (let requiredParameter of ['id', 'url', 'title', 'color', 'artist', 'type', 'quantity', 'price']) {
-  //   if (!addedItem[requiredParameter]) {
-  //     console.log(requiredParameter, "REQUIRED PARAMETER <<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>")
-      // res
-      //   .status(422)
-      //   .send({
-      //     error: `Expected format: {id: <Number>, url: <String>, title: <String>, color: <String>, artist: <String>, type: <String>. You\'re missing a "${requiredParameter}" property.`
-        // })
-  //   } 
-  // }
-
 
   if(foundItem) {
     foundItem.quantity++;
