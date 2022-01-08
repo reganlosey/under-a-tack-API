@@ -31,12 +31,12 @@ app.get('/api/v1/images', (req, res) => {
   res.json(images)
 })
 
-app.get('/api/v1/images', (req, res) => {
-  const images = app.locals.images
-  console.log('RequestPARAMS>>>', req.params)
-  console.log('Response>>>', res)
-  res.json(images)
-})
+// app.get('/api/v1/images', (req, res) => {
+//   const images = app.locals.images
+//   console.log('RequestPARAMS>>>', req.params)
+//   console.log('Response>>>', res)
+//   res.json(images)
+// })
 
 //Send a single image upon visit
 app.get('/api/v1/images/:id', (req, res) => {
@@ -56,7 +56,7 @@ app.post('/api/v1/images', (req, res) => {
   // const id = "21"
   const addedImage = req.body;
   console.log(addedImage)
-  for (let requiredParameter of ['id', 'url', 'title', 'color', 'artist', 'type']) {
+  for (let requiredParameter of ['id', 'url', 'title', 'color', 'artist', 'type', 'quantity', 'price']) {
     if (!addedImage[requiredParameter]) {
       res
         .status(422)
@@ -65,11 +65,51 @@ app.post('/api/v1/images', (req, res) => {
         })
     }
   }
-  const {id, url, title, color, artist, type } = addedImage
-  app.locals.images.push({ id, url, title, color, artist, type })
-  res.status(201).json({ id, url, title, color, artist, type })
+  const {id, url, title, color, artist, type, quantity, price } = addedImage
+  app.locals.images.push({ id, url, title, color, artist, type, quantity, price })
+  res.status(201).json({ id, url, title, color, artist, type, quantity, price })
   console.log(req, res)
 })
+
+// GET cart items
+app.get('/api/v1/cart', (req, res) => {
+  const cartItems = app.locals.cart
+  // console.log('RequestPARAMS>>>', req.params)
+  // console.log('Response>>>', res)
+  res.json(cartItems)
+})
+
+// POST item to cart
+app.post('/api/v1/cart', (req, res) => {
+  const {id, url, title, color, artist, type, quantity, price} = req.body;
+
+  // Object.assign(app.locals.cart, addedItem)
+  // for (let requiredParameter of ['id', 'url', 'title', 'color', 'artist', 'type', 'quantity', 'price']) {
+  //   if (!addedItem[requiredParameter]) {
+  //     res
+  //       .status(422)
+  //       .send({
+  //         error: `Expected format: {id: <Number>, url: <String>, title: <String>, color: <String>, artist: <String>, type: <String>. You\'re missing a "${requiredParameter}" property.`
+  //       })
+  //   }
+  // }
+
+  const addedItem = {id, url, title, color, artist, type, quantity: parseInt(quantity), price}
+  const foundItem = app.locals.cart.find(cartItem => cartItem.id === addedItem.id)
+
+
+  if(foundItem) {
+    foundItem.quantity++;
+    foundItem.quantity = foundItem.quantity.toString();
+  } else {
+    app.locals.cart.push(addedItem) 
+    res.status(201).json(addedItem);
+  }
+
+  console.log('POST IS HAPPENING OMG <<>>>><<<<<>>>>')
+})
+
+
 
 //Data to send and be hosted on the API
 app.locals.images = [
@@ -79,7 +119,9 @@ app.locals.images = [
     title: 'Last Summer Things Were Greener',
     color: ['green', 'blue', 'brown', 'black'],
     artist: 'John Byam Liston Shaw',
-    type: 'painting'
+    type: 'painting',
+    quantity: '0',
+    price: '25'
   },
   {
     id: "17",
@@ -87,7 +129,9 @@ app.locals.images = [
     title: 'Vase of Flowers',
     color: ['multi', 'black'],
     artist: 'Jan Davidsz de Heem',
-    type: 'painting'
+    type: 'painting', 
+    quantity: '0',
+    price: '25'
   },
   {
     id: "18",
@@ -95,7 +139,9 @@ app.locals.images = [
     title: 'Springtime',
     color: ['green', 'blue', 'white'],
     artist: 'Philip Wilson Steer',
-    type: 'painting'
+    type: 'painting',
+    quantity: '0',
+    price: '25'
   },
   {
     id: "19",
@@ -103,7 +149,9 @@ app.locals.images = [
     title: 'Changing the Letter',
     color: ['red', 'blue', 'green', 'yellow'],
     artist: 'Joseph Edward Southall',
-    type: 'painting'
+    type: 'painting',
+    quantity: '0',
+    price: '25'
   },
   {
     id: "20",
@@ -111,6 +159,27 @@ app.locals.images = [
     title: 'Near Brodick, Isle Of Arran, Scotland',
     color: ['yellow', 'blue', 'green'],
     artist: 'William Andrews Nesfield',
-    type: 'painting'
+    type: 'painting',
+    quantity: '0',
+    price: '25'
   }
 ]
+
+app.locals.cart = [
+  // {
+  //   id: 20,
+  //   url: 'https://images.unsplash.com/photo-1577720580479-7d839d829c73?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1568&q=80',
+  //   title: 'Near Brodick, Isle Of Arran, Scotland',
+  //   color: ['yellow', 'blue', 'green'],
+  //   artist: 'William Andrews Nesfield',
+  //   type: 'painting',
+  //   quantity: 1,
+  //   price: 25
+  // }
+]
+
+// iterate through the array of cart items (app.locals.cart)
+// check the id of each item
+// squash the items that have matching ids together
+// add their quantity properties into one sum somewhere
+// can we do this in GET?
