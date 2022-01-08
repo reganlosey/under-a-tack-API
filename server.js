@@ -94,16 +94,20 @@ app.post('/api/v1/cart', (req, res) => {
   //   }
   // }
 
-  // const foundItem = app.locals.cart.find(cartItem => cartItem.id === addedItem.id)
-  // foundItem ? addedItem.quantity++ : app.locals.cart.push(addedItem) && res.status(201).json(addedItem);
-
-// conditional that checks before the post, if there is an object in app.locals.cart that has the same id as the one being posted
-// if there is a matching object, instead of posting a new object, increment the quantity of the existing one
-// re GET?
-
   const addedItem = {id, url, title, color, artist, type, quantity: parseInt(quantity), price}
   const foundItem = app.locals.cart.find(cartItem => cartItem.id === addedItem.id)
-  // foundItem ? addedItem.quantity++ : app.locals.cart.push(addedItem) && res.status(201).json(addedItem);
+
+  // for (let requiredParameter of ['id', 'url', 'title', 'color', 'artist', 'type', 'quantity', 'price']) {
+  //   if (!addedItem[requiredParameter]) {
+  //     console.log(requiredParameter, "REQUIRED PARAMETER <<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>")
+      // res
+      //   .status(422)
+      //   .send({
+      //     error: `Expected format: {id: <Number>, url: <String>, title: <String>, color: <String>, artist: <String>, type: <String>. You\'re missing a "${requiredParameter}" property.`
+        // })
+  //   } 
+  // }
+
 
   if(foundItem) {
     foundItem.quantity++;
@@ -113,10 +117,6 @@ app.post('/api/v1/cart', (req, res) => {
     res.status(201).json(addedItem);
   }
 
-  // addedItem.quantity++;
-  // addedItem.quantity = addedItem.quantity.toString();
-  // app.locals.cart.push(addedItem);
-  // res.status(201).json(addedItem)
   console.log('POST IS HAPPENING OMG <<>>>><<<<<>>>>')
 })
 
