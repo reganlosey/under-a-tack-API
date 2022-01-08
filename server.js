@@ -31,12 +31,12 @@ app.get('/api/v1/images', (req, res) => {
   res.json(images)
 })
 
-app.get('/api/v1/images', (req, res) => {
-  const images = app.locals.images
-  console.log('RequestPARAMS>>>', req.params)
-  console.log('Response>>>', res)
-  res.json(images)
-})
+// app.get('/api/v1/images', (req, res) => {
+//   const images = app.locals.images
+//   console.log('RequestPARAMS>>>', req.params)
+//   console.log('Response>>>', res)
+//   res.json(images)
+// })
 
 //Send a single image upon visit
 app.get('/api/v1/images/:id', (req, res) => {
@@ -82,13 +82,14 @@ app.get('/api/v1/cart', (req, res) => {
 // POST item to cart
 app.post('/api/v1/cart', (req, res) => {
   const addedItem = req.body;
-  // console.log(addedItem)
+  console.log('not included')
+  Object.assign(app.locals.cart, addedItem)
   for (let requiredParameter of ['id', 'url', 'title', 'color', 'artist', 'type']) {
     if (!addedItem[requiredParameter]) {
       res
         .status(422)
         .send({
-          error: `Expected format: {name: <String>, type: <String>. You\'re missing a "${requiredParameter}" property.`
+          error: `Expected format: {id: <Number>, url: <String>, title: <String>, color: <String>, artist: <String>, type: <String>. You\'re missing a "${requiredParameter}" property.`
         })
     }
   }
@@ -132,7 +133,8 @@ app.locals.images = [
     title: 'Changing the Letter',
     color: ['red', 'blue', 'green', 'yellow'],
     artist: 'Joseph Edward Southall',
-    type: 'painting'
+    type: 'painting',
+
   },
   {
     id: "20",
@@ -140,7 +142,9 @@ app.locals.images = [
     title: 'Near Brodick, Isle Of Arran, Scotland',
     color: ['yellow', 'blue', 'green'],
     artist: 'William Andrews Nesfield',
-    type: 'painting'
+    type: 'painting',
+    quantity: 1
+    
   }
 ]
 
@@ -151,6 +155,7 @@ app.locals.cart = [
     title: 'Near Brodick, Isle Of Arran, Scotland',
     color: ['yellow', 'blue', 'green'],
     artist: 'William Andrews Nesfield',
-    type: 'painting'
+    type: 'painting',
+    quantity: 1
   }
 ]
