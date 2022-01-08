@@ -24,12 +24,47 @@ app.listen(app.get('port'), () => {
 
 
 //Send all images upon visit
-app.get('/api/v1/images', (req, res) => {
-  const images = app.locals.images
-  console.log('RequestPARAMS>>>', req.params)
-  console.log('Response>>>', res)
-  res.json(images)
+app.get('/api/v1/favorites', (req, res) => {
+  res.json(app.locals.favorites)
 })
+
+//refactor and add error handling
+
+// app.post('/api/v1/favorites', (req, res) => {
+//   console.log(req.body)
+//   Object.assign(app.locals.favorites, req.body)
+//   console.log(app.locals.favorites)
+//   res.status(200).send('added to favorites')
+// })
+
+app.post('/api/v1/favorites', (req, res) => {
+  const addedItem = req.body;
+  console.log('not included')
+  // Object.assign(app.locals.cart, addedItem)
+  for (let requiredParameter of ['id', 'url', 'title', 'color', 'artist', 'type']) {
+    if (!addedItem[requiredParameter]) {
+      res
+        .status(422)
+        .send({
+          error: `Expected format: {id: <Number>, url: <String>, title: <String>, color: <String>, artist: <String>, type: <String>. You\'re missing a "${requiredParameter}" property.`
+        })
+    }
+  }
+
+  app.locals.images.forEach(image => {
+    if(image.id === addedItem.id){
+      image.favorited = true
+    }
+  });
+  addedItem.favorited = true;
+  app.locals.favorites.push(addedItem);
+  res.status(201).json(addedItem);
+  console.log('POST IS HAPPENING OMG <<>>>><<<<<>>>>');
+})
+
+// app.delete('api/v1/favorites', (req, res) => {
+//   res.send("Delete Request Called")
+// })
 
 app.get('/api/v1/images', (req, res) => {
   const images = app.locals.images
@@ -79,7 +114,8 @@ app.locals.images = [
     title: 'Last Summer Things Were Greener',
     color: ['green', 'blue', 'brown', 'black'],
     artist: 'John Byam Liston Shaw',
-    type: 'painting'
+    type: 'painting',
+    favorited: 'false'
   },
   {
     id: "17",
@@ -87,7 +123,8 @@ app.locals.images = [
     title: 'Vase of Flowers',
     color: ['multi', 'black'],
     artist: 'Jan Davidsz de Heem',
-    type: 'painting'
+    type: 'painting',
+    favorited: 'false'
   },
   {
     id: "18",
@@ -95,7 +132,8 @@ app.locals.images = [
     title: 'Springtime',
     color: ['green', 'blue', 'white'],
     artist: 'Philip Wilson Steer',
-    type: 'painting'
+    type: 'painting',
+    favorited: 'false'
   },
   {
     id: "19",
@@ -103,7 +141,8 @@ app.locals.images = [
     title: 'Changing the Letter',
     color: ['red', 'blue', 'green', 'yellow'],
     artist: 'Joseph Edward Southall',
-    type: 'painting'
+    type: 'painting',
+    favorited: 'false'
   },
   {
     id: "20",
@@ -111,6 +150,9 @@ app.locals.images = [
     title: 'Near Brodick, Isle Of Arran, Scotland',
     color: ['yellow', 'blue', 'green'],
     artist: 'William Andrews Nesfield',
-    type: 'painting'
+    type: 'painting',
+    favorited: 'false'
   }
 ]
+
+app.locals.favorites = [];
