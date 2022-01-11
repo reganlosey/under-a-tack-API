@@ -1,11 +1,13 @@
 const { response } = require('express');
 const express = require('express');
 const cors = require('cors');
-const e = require('express');
 const app = express();
 
 app.use(cors())
 app.use(express.json())
+
+const environment = process.env.NODE_ENV
+console.log(process.env)
 
 
 app.set('port', process.env.PORT || 3001)

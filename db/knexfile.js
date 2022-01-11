@@ -1,4 +1,5 @@
 // Update with your config settings.
+const knex = require('knex');
 
 module.exports = {
 
@@ -11,11 +12,7 @@ module.exports = {
   // process.env.{name}
   development: {
     client: 'postgresql',
-    connection: {
-      database: 'd51t03vhjgmka3',
-      user:     'jwqnphepieaahx',
-      password: '066a5360e1fa286ba97c1801408118f8ac760c9e663d115bbc4a2452324f0b15'
-    },
+    connection: '',
     pool: {
       min: 2,
       max: 10
@@ -29,11 +26,7 @@ module.exports = {
 
   production: {
     client: 'postgresql',
-    connection: {
-      database: 'd51t03vhjgmka3',
-      user:     'jwqnphepieaahx',
-      password: '066a5360e1fa286ba97c1801408118f8ac760c9e663d115bbc4a2452324f0b15'
-    },
+    connection: process.env.DATABASE_URL,
     pool: {
       min: 2,
       max: 10
