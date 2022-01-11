@@ -428,17 +428,6 @@ app.locals.images = [
   }, 
   {
     id: "27",
-    url: 'https://images.unsplash.com/photo-1603344204980-4edb0ea63148?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1035&q=80',
-    title: 'Doodles',
-    color: ['black', 'white'],
-    artist: 'Abin Varghese',
-    type: 'drawing',
-    favorited: false,
-    quantity: 0,
-    price: '25'
-  }, 
-  {
-    id: "27",
     url: 'https://images.unsplash.com/flagged/photo-1573803625411-9edf9a6ae3b9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1035&q=80',
     title: 'Graffiti Doodle',
     color: ['yellow', 'purple', 'white', 'black'],
@@ -535,7 +524,18 @@ app.locals.images = [
     favorited: false,
     quantity: 0,
     price: '25'
-  }
+  },
+  {
+    id: "36",
+    url: 'https://images.unsplash.com/photo-1603344204980-4edb0ea63148?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1035&q=80',
+    title: 'Doodles',
+    color: ['black', 'white'],
+    artist: 'Abin Varghese',
+    type: 'drawing',
+    favorited: false,
+    quantity: 0,
+    price: '25'
+  } 
 ]
 
 app.locals.cart = []
