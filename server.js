@@ -1,6 +1,7 @@
 const { response } = require('express');
 const express = require('express');
 const cors = require('cors');
+const e = require('express');
 const app = express();
 
 app.use(cors())
@@ -39,7 +40,6 @@ app.get('/api/v1/favorites/:id', (req, res) => {
 
 app.post('/api/v1/favorites', (req, res) => {
   const postedItem = req.body;
-  // Object.assign(app.locals.cart, addedItem)
   for (let requiredParameter of ['id', 'url', 'title', 'color', 'artist', 'type']) {
     if (!postedItem[requiredParameter]) {
       res
@@ -54,9 +54,9 @@ app.post('/api/v1/favorites', (req, res) => {
     if(image.id === postedItem.id && !app.locals.favorites.includes(image)){
       image.favorited = true
       app.locals.favorites.push(image);
+      res.status(201).json(postedItem);
     }
   });
-  res.status(201).json(postedItem);
   console.log('POST IS HAPPENING OMG <<>>>><<<<<>>>>');
 })
 
@@ -121,31 +121,17 @@ app.get('/api/v1/cart', (req, res) => {
 
 // POST item to cart
 app.post('/api/v1/cart', (req, res) => {
-  const {id, url, title, color, artist, type, quantity, price} = req.body;
-
-  // Object.assign(app.locals.cart, addedItem)
-  // for (let requiredParameter of ['id', 'url', 'title', 'color', 'artist', 'type', 'quantity', 'price']) {
-  //   if (!addedItem[requiredParameter]) {
-  //     res
-  //       .status(422)
-  //       .send({
-  //         error: `Expected format: {id: <Number>, url: <String>, title: <String>, color: <String>, artist: <String>, type: <String>. You\'re missing a "${requiredParameter}" property.`
-  //       })
-  //   }
-  // }
-
-  const addedItem = {id, url, title, color, artist, type, quantity: parseInt(quantity), price}
-  const foundItem = app.locals.cart.find(cartItem => cartItem.id === addedItem.id)
-
-
-  if(foundItem) {
-    foundItem.quantity++;
-    foundItem.quantity = foundItem.quantity.toString();
-  } else {
-    app.locals.cart.push(addedItem) 
-    res.status(201).json(addedItem);
-  }
-
+  const addedItem = req.body;
+  app.locals.images.forEach(image => {
+    if(image.id === addedItem.id && !app.locals.cart.includes(image)){
+      image.quantity++
+      app.locals.cart.push(image);
+      res.status(201).json(addedItem);
+    } else if(image.id === addedItem.id){
+      image.quantity++
+      res.status(201).json(addedItem);
+    }
+  });
   console.log('POST IS HAPPENING OMG <<>>>><<<<<>>>>')
 })
 
@@ -161,7 +147,7 @@ app.locals.images = [
     artist: 'Eduard Müller',
     type: 'sculpture',
     favorited: false,
-    quantity: '0',
+    quantity: 0,
     price: '25'
   },
   {
@@ -172,7 +158,7 @@ app.locals.images = [
     artist: `unknown`,
     type: 'sculpture',
     favorited: false,
-    quantity: '0',
+    quantity: 0,
     price: '25'
   },
   {
@@ -183,7 +169,7 @@ app.locals.images = [
     artist: `Vincenzo de' rossi`,
     type: 'sculpture',
     favorited: false,
-    quantity: '0',
+    quantity: 0,
     price: '25'
   },
   {
@@ -194,7 +180,7 @@ app.locals.images = [
     artist: `unknown`,
     type: 'sculpture',
     favorited: false,
-    quantity: '0',
+    quantity: 0,
     price: '25'
   },
   {
@@ -205,7 +191,7 @@ app.locals.images = [
     artist: `unknown`,
     type: 'sculpture',
     favorited: false,
-    quantity: '0',
+    quantity: 0,
     price: '25'
   },
   {
@@ -216,7 +202,7 @@ app.locals.images = [
     artist: 'John Byam Liston Shaw',
     type: 'painting',
     favorited: false,
-    quantity: '0',
+    quantity: 0,
     price: '25'
   },
   {
@@ -228,7 +214,7 @@ app.locals.images = [
     type: 'painting',
     favorited: false,
     type: 'painting', 
-    quantity: '0',
+    quantity: 0,
     price: '25'
   },
   {
@@ -239,7 +225,7 @@ app.locals.images = [
     artist: 'Philip Wilson Steer',
     type: 'painting',
     favorited: false,
-    quantity: '0',
+    quantity: 0,
     price: '25'
   },
   {
@@ -250,7 +236,7 @@ app.locals.images = [
     artist: 'Joseph Edward Southall',
     type: 'painting',
     favorited: false,
-    quantity: '0',
+    quantity: 0,
     price: '25'
   },
   {
@@ -261,7 +247,7 @@ app.locals.images = [
     artist: 'William Andrews Nesfield',
     type: 'painting',
     favorited: false,
-    quantity: '0',
+    quantity: 0,
     price: '25'
   }
 ]
