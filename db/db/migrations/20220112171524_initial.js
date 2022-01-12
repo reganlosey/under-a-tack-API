@@ -4,7 +4,7 @@ exports.up = function(knex) {
       table.increments('id').primary();
       table.string('url').notNullable().unique();
       table.string('title').notNullable();
-      table.array('color').notNullable();
+      table.specificType('color', 'text[]').notNullable();
       table.string('artist').notNullable();
       table.string('type').notNullable();
       table.boolean('favorited').notNullable();

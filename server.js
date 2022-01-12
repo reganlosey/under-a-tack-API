@@ -2,7 +2,7 @@ const { response } = require('express');
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const knexfile = require('./db/knexfile')
+const knexfile = require('./knexfile')
 require('dotenv').config()
 const environment = process.env.NODE_ENV || 'development'
 const config = knexfile[environment]
