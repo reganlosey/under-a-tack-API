@@ -8,7 +8,7 @@ exports.up = function(knex) {
       table.string('artist').notNullable();
       table.string('type').notNullable();
       table.boolean('favorited').notNullable();
-      table.string('quantity').notNullable();
+      table.number('quantity').notNullable();
       table.string('price').notNullable();
       table.timestamps(true, true);
     })
