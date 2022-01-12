@@ -9,13 +9,6 @@ module.exports = {
     connection: {
       database: 'uat-local-db'
     },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    // migrations: {
-    //   tableName: 'knex_migrations'
-    // }
     migrations: {
       directory: './db/db/migrations'
     },
@@ -24,11 +17,13 @@ module.exports = {
 
   production: {
     client: 'postgresql',
-    connection: process.env.DATABASE_URL,
+    connection: {
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false }
+    },
     migrations: {
       directory: './db/db/migrations'
     },
-    ssl: { rejectUnauthorized: false },
     useNullAsDefault: true
   }
 
