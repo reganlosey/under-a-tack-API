@@ -3,28 +3,36 @@
 module.exports = {
 
   development: {
-    client: 'postgresql',
-    connection: 'postgres://localhost:3001',
+    client: 'pg',
+    connection: 'postgres://localhost/den1iduv7hle85',
     pool: {
       min: 2,
       max: 10
     },
+    // migrations: {
+    //   tableName: 'knex_migrations'
+    // }
     migrations: {
-      tableName: 'knex_migrations'
-    }
+      directory: './db/db/migrations'
+    },
+    useNullAsDefault: true
   },
 
   production: {
-    client: 'postgresql',
+    client: 'pg',
     connection: process.env.DATABASE_URL,
     pool: {
       min: 2,
       max: 10
     },
+    // migrations: {
+    //   tableName: 'knex_migrations'
+    // },
     migrations: {
-      tableName: 'knex_migrations'
+      directory: './db/db/migrations'
     },
-    ssl: { rejectUnauthorized: false }
+    ssl: { rejectUnauthorized: false },
+    useNullAsDefault: true
   }
 
 };
