@@ -144,7 +144,7 @@ app.post('/api/v1/cart', (req, res) => {
 app.delete('/api/v1/cart/:id', (req, res) => {
   const cartId = req.params.id;
   app.locals.cart.forEach(image => {
-    if(image.id === cartId && image.quantity <= 1){
+    if(image.id === cartId && image.quantity <= 1) {
       image.quantity--
       app.locals.cart = app.locals.cart.filter(element => element.id !== cartId)
     }
@@ -152,7 +152,6 @@ app.delete('/api/v1/cart/:id', (req, res) => {
       image.quantity--
     } 
   })
-
   res.status(200).json(app.locals.cart);
 })
 
