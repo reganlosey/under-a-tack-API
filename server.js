@@ -39,8 +39,8 @@ app.get('/api/v1/favorites/:id', (req, res) => {
 
 app.post('/api/v1/favorites', (req, res) => {
   const postedItem = req.body;
-  for (let requiredParameter of ['id', 'url', 'title', 'color', 'artist', 'type', 'quantity', 'price']) {
-    if (!postedItem[requiredParameter] && postedItem['quantity'] !== 0) {
+  for (let requiredParameter of ['id', 'url', 'title', 'color', 'artist', 'type']) {
+    if (!postedItem[requiredParameter]) {
       res
         .status(422)
         .send({
