@@ -95,7 +95,7 @@ app.get('/api/v1/images/:id', (req, res) => {
 app.post('/api/v1/images', (req, res) => {
   const addedImage = req.body;
   for (let requiredParameter of ['id', 'url', 'title', 'color', 'artist', 'type', 'quantity', 'price']) {
-    if (!addedItem[requiredParameter]) {
+    if (!addedImage[requiredParameter]) {
       res
         .status(422)
         .send({
