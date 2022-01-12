@@ -3,7 +3,7 @@
 module.exports = {
 
   development: {
-    client: 'pg',
+    client: 'postgresql',
     connection: 'postgres://localhost/den1iduv7hle85',
     pool: {
       min: 2,
@@ -19,7 +19,7 @@ module.exports = {
   },
 
   production: {
-    client: 'pg',
+    client: 'postgresql',
     connection: process.env.DATABASE_URL,
     pool: {
       min: 2,
