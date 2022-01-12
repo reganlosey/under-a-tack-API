@@ -4,6 +4,11 @@ const cors = require('cors');
 const app = express();
 const knexfile = require('./db/knexfile')
 require('dotenv').config()
+const environment = process.env.NODE_ENV || 'development'
+const config = knexfile[environment]
+console.log(config)
+const knex = require('knex');
+const db = knex(config)
 
 app.use(cors())
 app.use(express.json())
