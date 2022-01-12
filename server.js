@@ -3,33 +3,24 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const knex = require('./db');
-// const knexfile = require('./db/knexfile')
-// require('dotenv').config()
-// const environment = process.env.NODE_ENV || 'development'
-// const config = knexfile[environment]
-// console.log(config)
-// const knex = require('knex');
-// const db = knex(config)
 
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 
 
-app.set('port', process.env.PORT || 3001)
-app.locals.title = 'Under A Tack'
+app.set('port', process.env.PORT || 3001);
+app.locals.title = 'Under A Tack';
 
 // Confirm the server is running
 app.get('/', (req, res) => {
   res.send('UnderATack')
-  console.log('Request>>>', req)
-  console.log('Response>>>', res)
 });
 
 //Console.log for confirmation
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}.`)
-})
+});
 
 
 //Send all images upon visit
@@ -64,8 +55,7 @@ app.post('/api/v1/favorites', (req, res) => {
       app.locals.favorites.push(image);
       res.status(201).json(postedItem);
     }
-  });
-  console.log('POST IS HAPPENING OMG <<>>>><<<<<>>>>');
+  })
 })
 
 app.delete('/api/v1/favorites/:id', (req, res) => {
@@ -122,8 +112,6 @@ app.post('/api/v1/images', (req, res) => {
 // GET cart items
 app.get('/api/v1/cart', (req, res) => {
   const cartItems = app.locals.cart
-  // console.log('RequestPARAMS>>>', req.params)
-  // console.log('Response>>>', res)
   res.json(cartItems)
 })
 
@@ -139,8 +127,7 @@ app.post('/api/v1/cart', (req, res) => {
       image.quantity++
       res.status(201).json(addedItem);
     }
-  });
-  console.log('POST IS HAPPENING OMG <<>>>><<<<<>>>>')
+  })
 })
 
 
