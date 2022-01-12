@@ -17,7 +17,5 @@
     "pg": "^8.7.1",
     "sqlite3": "^5.0.2"
   },
-  "devDependencies": {
-    "dotenv": "^11.0.0"
-  }
+  "devDependencies": {}
 }
