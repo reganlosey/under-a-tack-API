@@ -137,20 +137,15 @@ app.post('/api/v1/cart', (req, res) => {
 
 app.delete('/api/v1/cart/:id', (req, res) => {
   const cartId = req.params.id;
-  console.log('>>>>>>>>>>>target', req.body)
   app.locals.cart.forEach(image => {
-    if(image.id === cartId && image.quantity > 1) {
+    if(image.id === cartId && image.quantity <= 1) {
       image.quantity--
-      console.log ('>>>>hello', app.locals.cart)
-    } 
-    if(image.id === cartId && image.quantity === 1){
-      image.quantity--
-      console.log ('>>>>byee', app.locals.cart)
       app.locals.cart = app.locals.cart.filter(element => element.id !== cartId)
+    } 
+    if(image.id === cartId && image.quantity > 1){
+      image.quantity--
     }
-    // app.locals.cart = app.locals.cart.filter(element => element.id !== image.id)
   })
-
   res.status(200).json(app.locals.cart);
 })
 
