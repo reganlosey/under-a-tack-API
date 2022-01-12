@@ -2,12 +2,14 @@ const { response } = require('express');
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const knexfile = require('./db/knexfile')
+require('dotenv').config()
 
 app.use(cors())
 app.use(express.json())
 
 const environment = process.env.NODE_ENV
-console.log(process.env)
+console.log(process.env.DATABASE_URL)
 
 
 app.set('port', process.env.PORT || 3001)
