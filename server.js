@@ -8,8 +8,6 @@ require('dotenv').config()
 app.use(cors())
 app.use(express.json())
 
-const environment = process.env.NODE_ENV
-console.log(process.env.DATABASE_URL)
 
 
 app.set('port', process.env.PORT || 3001)
