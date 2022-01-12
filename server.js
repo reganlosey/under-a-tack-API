@@ -22,7 +22,6 @@ app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}.`)
 });
 
-
 //Send all images upon visit
 app.get('/api/v1/favorites', (req, res) => {
   res.json(app.locals.favorites)
@@ -44,10 +43,10 @@ app.post('/api/v1/favorites', (req, res) => {
       res
         .status(422)
         .send({
-          error: `Expected format: {id: <Number>, url: <String>, title: <String>, color: <String>, artist: <String>, type: <String>. You\'re missing a "${requiredParameter}" property.`
+          error: `Status 422 - Expected format: {id: <Number>, url: <String>, title: <String>, color: <String>, artist: <String>, type: <String>, quantity: <Interger>, price: <Interger>. You\'re missing a "${requiredParameter}" property.`
         })
+      }
     }
-  }
 
   app.locals.images.forEach(image => {
     if(image.id === postedItem.id && !app.locals.favorites.includes(image)){
@@ -93,16 +92,15 @@ app.get('/api/v1/images/:id', (req, res) => {
 //POST data here:
 app.post('/api/v1/images', (req, res) => {
   const addedImage = req.body;
-  console.log(addedImage)
   for (let requiredParameter of ['id', 'url', 'title', 'color', 'artist', 'type', 'quantity', 'price']) {
     if (!addedImage[requiredParameter]) {
       res
         .status(422)
         .send({
-          error: `Expected format: {name: <String>, type: <String>. You\'re missing a "${requiredParameter}" property.`
+          error: `Status 422 - Expected format: {id: <Number>, url: <String>, title: <String>, color: <String>, artist: <String>, type: <String>, quantity: <Interger>, price: <Interger>. You\'re missing a "${requiredParameter}" property.`
         })
+      }
     }
-  }
   const {id, url, title, color, artist, type, quantity, price } = addedImage
   app.locals.images.push({ id, url, title, color, artist, type, quantity, price })
   res.status(201).json({ id, url, title, color, artist, type, quantity, price })
@@ -118,6 +116,16 @@ app.get('/api/v1/cart', (req, res) => {
 // POST item to cart
 app.post('/api/v1/cart', (req, res) => {
   const addedItem = req.body;
+  for (let requiredParameter of ['id', 'url', 'title', 'color', 'artist', 'type', 'quantity', 'price']) {
+    if (!addedItem[requiredParameter]) {
+      res
+        .status(422)
+        .send({
+          error: `Status 422 - Expected format: {id: <Number>, url: <String>, title: <String>, color: <String>, artist: <String>, type: <String>, quantity: <Interger>, price: <Interger>. You\'re missing a "${requiredParameter}" property.`
+        })
+      }
+    }
+
   app.locals.images.forEach(image => {
     if(image.id === addedItem.id && !app.locals.cart.includes(image)){
       image.quantity++
@@ -128,6 +136,20 @@ app.post('/api/v1/cart', (req, res) => {
       res.status(201).json(addedItem);
     }
   })
+})
+
+app.delete('/api/v1/cart/:id', (req, res) => {
+  const cartId = req.params.id;
+  app.locals.cart.forEach(image => {
+    if(image.id === cartId && image.quantity <= 1) {
+      image.quantity--
+      app.locals.cart = app.locals.cart.filter(element => element.id !== cartId)
+    }
+    if(image.id === cartId && image.quantity > 1) {
+      image.quantity--
+    } 
+  })
+  res.status(200).json(app.locals.cart);
 })
 
 
