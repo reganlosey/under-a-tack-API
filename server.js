@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const knex = require('./db');
+require('dotenv').config('./env');
 
 
 app.use(cors());
@@ -11,6 +12,7 @@ app.use(express.json());
 
 
 app.set('port', process.env.PORT || 3001);
+console.log(process.env.PORT)
 app.locals.title = 'Under A Tack';
 
 // Confirm the server is running
