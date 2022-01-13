@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "devStart": "nodemon server.js",
-    "knex": "knex"
+    "knex": "knex",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
